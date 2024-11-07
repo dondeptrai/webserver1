@@ -33,6 +33,20 @@ def get_mime_type(file_path):
         return "image/x-icon"
     return "text/plain"
 
+def check_port_in_use(port):
+    """Kiểm tra xem cổng đã được sử dụng chưa và hiển thị dịch vụ sử dụng cổng đó."""
+    try:
+        result = subprocess.run(
+            ["lsof", "-i", f":{port}"],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        return result.stdout
+    except subprocess.CalledProcessError:
+        return None
+
+
 def install_php():
     """Cài đặt PHP dựa trên hệ điều hành hiện tại."""
     os_name = platform.system()
@@ -122,6 +136,11 @@ def handle_php(file_path):
     except Exception as e:
         return f"Error: {str(e)}"  
 
+
+port_usage_info = check_port_in_use(PORT)
+if port_usage_info:
+    print(f"Cổng {PORT} đã được sử dụng. Thông tin dịch vụ đang sử dụng cổng:\n{port_usage_info}")
+    sys.exit(1)
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     server_socket.bind((HOST, PORT))
