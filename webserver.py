@@ -33,6 +33,68 @@ def get_mime_type(file_path):
         return "image/x-icon"
     return "text/plain"
 
+def install_php():
+    """Cài đặt PHP dựa trên hệ điều hành hiện tại."""
+    os_name = platform.system()
+    try:
+        if os_name == "Windows":
+            print("Đang cài đặt PHP trên Windows...")
+            # Sử dụng Chocolatey để cài PHP trên Windows
+            subprocess.run(["choco", "install", "php", "-y"], check=True)
+        elif os_name == "Darwin":  # Darwin là tên hệ điều hành của macOS
+            print("Đang cài đặt PHP trên macOS...")
+            # Sử dụng Homebrew để cài PHP trên macOS
+            subprocess.run(["brew", "install", "php"], check=True)
+        elif os_name == "Linux":
+            print("Đang cài đặt PHP trên Linux...")
+            # Sử dụng APT để cài PHP trên các hệ thống Debian/Ubuntu hoặc YUM cho CentOS/RHEL
+            if shutil.which("apt"):
+                subprocess.run(["sudo", "apt", "update"], check=True)
+                subprocess.run(["sudo", "apt", "install", "-y", "php"], check=True)
+            elif shutil.which("yum"):
+                subprocess.run(["sudo", "yum", "install", "-y", "php"], check=True)
+        else:
+            print("Hệ điều hành không được hỗ trợ tự động cài PHP.")
+    except subprocess.CalledProcessError as e:
+        print(f"Lỗi cài đặt PHP: {e}")
+        
+def get_php_path():
+    """Xác định đường dẫn PHP dựa trên hệ điều hành và cài đặt nếu cần thiết."""
+    php_path = shutil.which("php")
+    if php_path:
+        print(f"PHP đã được cài đặt tại: {php_path}")
+        return php_path
+    else:
+        print("PHP chưa được cài đặt. Đang tiến hành cài đặt...")
+        install_php()
+        # Kiểm tra lại sau khi cài đặt
+        php_path = shutil.which("php")
+        if php_path:
+            print(f"PHP đã được cài đặt thành công tại: {php_path}")
+            return php_path
+        else:
+            print("Không thể cài đặt PHP tự động. Vui lòng cài đặt thủ công.")
+            return None
+
+
+def handle_php(file_path):
+    """Thực thi tệp PHP và trả về kết quả."""
+    php_path = get_php_path()
+    if php_path is None:
+        return "Không tìm thấy PHP trên hệ điều hành này."
+    
+    try:
+        result = subprocess.run([php_path, file_path], capture_output=True, text=True)
+        if result.returncode == 0:
+            return result.stdout
+        else:
+            return f"Lỗi PHP: {result.stderr}"
+    except Exception as e:
+        return f"Lỗi: {str(e)}"
+
+# Sử dụng
+php_output = handle_php("test.php")
+print(php_output)
 def check_php():
     php_path = shutil.which("php")
     if php_path is not None:
