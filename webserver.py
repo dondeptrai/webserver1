@@ -2,12 +2,14 @@ import os
 import socket
 import subprocess
 import sys
+import shutil
+import subprocess
+import platform
 
-# Đảm bảo đầu ra được mã hóa bằng utf-8
 sys.stdout.reconfigure(encoding='utf-8')
 HOST, PORT = 'localhost', 8080
 
-# Lấy đường dẫn của thư mục hiện tại
+
 PROJECT_ROOT = os.getcwd()
 
 
@@ -31,6 +33,13 @@ def get_mime_type(file_path):
         return "image/x-icon"
     return "text/plain"
 
+def check_php():
+    php_path = shutil.which("php")
+    if php_path is not None:
+        print(f"PHP đã được cài trên máy tại: {php_path}")
+        return True
+    else:
+        print("PHP chưa được cài ")
 
 def find_file(requested_file):
     """Tìm tệp theo đường dẫn yêu cầu."""
@@ -42,14 +51,14 @@ def find_file(requested_file):
 def handle_php(file_path):
     """Thực thi tệp PHP và trả về kết quả."""
     try:
-        # Sử dụng php-cgi để thực thi file PHP và lấy kết quả trả về
+        
         result = subprocess.run([r"/usr/local/bin/php", file_path], capture_output=True, text=True)
         if result.returncode == 0:
-            return result.stdout  # Trả về kết quả thực thi PHP
+            return result.stdout 
         else:
-            return f"PHP Error: {result.stderr}"  # Nếu có lỗi, trả về lỗi
+            return f"PHP Error: {result.stderr}"  
     except Exception as e:
-        return f"Error: {str(e)}"  # Nếu có ngoại lệ, trả về lỗi
+        return f"Error: {str(e)}"  
 
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
