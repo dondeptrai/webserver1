@@ -22,6 +22,27 @@ python3 --version
 Server hỗ trợ xử lý các tệp PHP, vì vậy bạn không cần cài đặt trước PHP:
 
 Windows: Web server sẽ tự động cài đặt PHP bằng choco (Chocolatey).
+nếu choco không thể cài được thì chúng ta có thể cài php thủ công 
+ Truy cập  https://www.php.net/downloads
+ Nhấp vào nút “ Tải xuống ” của Windows.
+ Trang web mới có nhiều tùy chọn khác nhau, hãy chọn phiên bản Thread safe, sau đó nhấp vào nút zip và Tải xuống.
+ Bây giờ hãy kiểm tra tệp zip trong mục tải xuống trong hệ thống của bạn và giải nén nó.
+ Sau khi giải nén, bạn sẽ có được thư mục đã giải nén.
+ Bây giờ hãy sao chép thư mục đã giải nén.
+ Bây giờ dán thư mục sao chép vào ổ đĩa Windows của bạn vào thư mục Program files.
+ Bây giờ cửa sổ Permission xuất hiện để dán thư mục vào tệp chương trình rồi nhấp vào “Tiếp tục”.
+ Sau khi dán thư mục, hãy sao chép địa chỉ của thư mục vào tệp chương trình.
+ Bây giờ hãy nhấp vào Menu Bắt đầu và tìm kiếm “Chỉnh sửa biến môi trường hệ thống” và mở nó.
+ Sau khi mở System, cửa sổ Variable New sẽ xuất hiện và nhấp vào “Environment Variables…”
+ Bây giờ hãy vào tùy chọn “System variables” Path và nhấp đúp vào Path .
+ Màn hình tiếp theo sẽ mở ra và nhấp vào nút “Mới”.
+ Sau khi New Paste địa chỉ chúng ta sao chép từ file chương trình sang New và nhấp vào nút Enter .
+ Bây giờ hãy nhấp vào nút OK .
+ Bây giờ PHP của bạn đã được cài đặt trên máy tính của bạn. Bạn có thể kiểm tra bằng cách vào menu “ Start ” gõ Command Prompt. Mở nó   ra.
+ Khi Command Prompt mở ra, nhập php -v
+
+
+
 macOS: Web server sẽ dùng brew (Homebrew) để cài PHP.
 Linux: Server hỗ trợ cài đặt PHP bằng apt hoặc yum tùy thuộc vào hệ điều hành.
 Lưu ý: Nếu chưa có các công cụ như Chocolatey (Windows) hoặc Homebrew (macOS), bạn sẽ cần cài đặt chúng trước.
